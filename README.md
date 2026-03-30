@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/img/sara_logo.png" alt="SARA — Sistema de Apoyo Remoto de Aplicaciones" width="300">
+</p>
+
 # SARA — Sistema de Apoyo Remoto de Aplicaciones
 **Fundacion Sersocial IPS · Soporte TI**
 
