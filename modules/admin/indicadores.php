@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__ . '/auth.php';
-require_once __DIR__ . '/db.php';
-require_once __DIR__ . '/helpers.php';
+require_once __DIR__ . '/../../core/auth.php';
+require_once __DIR__ . '/../../core/db.php';
+require_once __DIR__ . '/../../core/helpers.php';
 requirePerfil('coordinador', 'agente');
 
 $db  = getDB();
@@ -151,7 +151,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_lote'])) {
     $lid = $db->real_escape_string($_POST['eliminar_lote']);
     $db->query("DELETE FROM indicadores_cargue WHERE lote_id='$lid'");
-    header('Location: indicadores.php?msg=' . urlencode('Lote eliminado correctamente.'));
+    header('Location: ' . BASE_URL . '/modules/admin/indicadores.php?msg=' . urlencode('Lote eliminado correctamente.'));
     exit;
 }
 
@@ -224,8 +224,8 @@ $registros= $lote_sel
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Indicadores</title>
-<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-<link rel="stylesheet" href="style.css">
+<link rel="shortcut icon" type="image/x-icon" href="<?= BASE_URL ?>/favicon.ico">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 .upload-zone {
@@ -289,7 +289,7 @@ $registros= $lote_sel
 </style>
 </head>
 <body>
-<?= renderNav('indicadores.php') ?>
+<?= renderNav(BASE_URL . '/modules/admin/indicadores.php') ?>
 <div class="page">
     <div class="page-title">📈 Indicadores — Cargue Masivo</div>
     <?php if ($msg): ?>

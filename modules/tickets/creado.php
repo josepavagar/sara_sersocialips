@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__ . '/auth.php';
-require_once __DIR__ . '/db.php';
-require_once __DIR__ . '/helpers.php';
+require_once __DIR__ . '/../../core/auth.php';
+require_once __DIR__ . '/../../core/db.php';
+require_once __DIR__ . '/../../core/helpers.php';
 requireLogin();
 
 $numero = htmlspecialchars($_GET['numero'] ?? '');
@@ -14,8 +14,8 @@ $agente = htmlspecialchars($_GET['agente']  ?? '');
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Soporte APP</title>
-<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-<link rel="stylesheet" href="style.css">
+<link rel="shortcut icon" type="image/x-icon" href="<?= BASE_URL ?>/favicon.ico">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
 <style>
 .success-card {
     max-width: 520px;
@@ -80,7 +80,7 @@ $agente = htmlspecialchars($_GET['agente']  ?? '');
       Si tienes dudas, contacta a soporte con este código.
     </p>
 
-    <a href="nuevo_ticket.php" class="btn btn-primary" style="width:100%;justify-content:center;">
+    <a href="<?= BASE_URL ?>/modules/tickets/nuevo.php" class="btn btn-primary" style="width:100%;justify-content:center;">
       ➕ Crear otro ticket
     </a>
   </div>

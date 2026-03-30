@@ -1,8 +1,8 @@
 <?php
-require_once __DIR__ . '/auth.php';
+require_once __DIR__ . '/../../core/auth.php';
 requirePerfil('coordinador');
-require_once __DIR__ . '/db.php';
-require_once __DIR__ . '/helpers.php';
+require_once __DIR__ . '/../../core/db.php';
+require_once __DIR__ . '/../../core/helpers.php';
 
 $db  = getDB();
 $msg = '';
@@ -41,7 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $err = 'El nombre no puede estar vacío.';
         } else {
             $stmt = $db->prepare("UPDATE agentes SET nombre=?, email=?, telefono=?, departamento=?, activo=? WHERE id=?");
-            $stmt->bind_param('ssssi i', $nombre, $email, $telefono, $departamento, $activo, $id);
             $stmt->bind_param('ssssii', $nombre, $email, $telefono, $departamento, $activo, $id);
             $stmt->execute() ? $msg = "Agente actualizado correctamente." : $err = $stmt->error;
             // Sync nombre en tickets
@@ -104,8 +103,8 @@ $activos_cnt    = $tot['a'] ?? 0;
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Agentes</title>
-<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-<link rel="stylesheet" href="style.css">
+<link rel="shortcut icon" type="image/x-icon" href="<?= BASE_URL ?>/favicon.ico">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
 <style>
 /* Avatar circle */
 .avatar {
@@ -153,7 +152,7 @@ $activos_cnt    = $tot['a'] ?? 0;
 </style>
 </head>
 <body>
-<?= renderNav('agentes.php') ?>
+<?= renderNav(BASE_URL . '/modules/admin/agentes.php') ?>
 
 <div class="page">
   <div class="page-title">👥 Gestión de Agentes</div>
@@ -216,7 +215,7 @@ $activos_cnt    = $tot['a'] ?? 0;
       </div>
       <div style="display:flex;gap:10px;margin-top:6px;">
         <button type="submit" class="btn btn-primary">💾 Guardar Cambios</button>
-        <a href="agentes.php" class="btn btn-ghost">Cancelar</a>
+        <a href="<?= BASE_URL ?>/modules/admin/agentes.php" class="btn btn-ghost">Cancelar</a>
       </div>
     </form>
   </div>
@@ -358,7 +357,7 @@ $activos_cnt    = $tot['a'] ?? 0;
             <td>
               <div style="display:flex;gap:6px;flex-wrap:wrap;">
                 <!-- Editar -->
-                <a href="agentes.php?editar=<?= $ag['id'] ?>" class="btn btn-ghost btn-sm">✏ Editar</a>
+                <a href="<?= BASE_URL ?>/modules/admin/agentes.php?editar=<?= $ag['id'] ?>" class="btn btn-ghost btn-sm">✏ Editar</a>
 
                 <!-- Toggle activo -->
                 <form method="POST" style="display:inline;">
@@ -391,7 +390,7 @@ $activos_cnt    = $tot['a'] ?? 0;
   <!-- Nota de migración -->
   <p style="margin-top:16px;font-size:.78rem;color:var(--muted);">
     ¿Primera vez usando este módulo? Asegúrate de haber ejecutado
-    <a href="migracion_agentes.php">migracion_agentes.php</a> para crear la tabla en la base de datos.
+    <a href="<?= BASE_URL ?>/setup/migracion_agentes.php">migracion_agentes.php</a> para crear la tabla en la base de datos.
   </p>
 </div>
 </body>

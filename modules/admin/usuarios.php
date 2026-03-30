@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__ . '/auth.php';
-require_once __DIR__ . '/db.php';
-require_once __DIR__ . '/helpers.php';
+require_once __DIR__ . '/../../core/auth.php';
+require_once __DIR__ . '/../../core/db.php';
+require_once __DIR__ . '/../../core/helpers.php';
 requirePerfil('coordinador');
 
 $db  = getDB();
@@ -86,8 +86,8 @@ while ($r = $tot->fetch_assoc()) $counts[$r['perfil']] = $r;
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Usuarios</title>
-<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-<link rel="stylesheet" href="style.css">
+<link rel="shortcut icon" type="image/x-icon" href="<?= BASE_URL ?>/favicon.ico">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
 <style>
 .avatar-sm { width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.78rem;flex-shrink:0; }
 .av-usuario     { background:rgba(45,190,108,.2); color:var(--green); }
@@ -104,7 +104,7 @@ while ($r = $tot->fetch_assoc()) $counts[$r['perfil']] = $r;
 </style>
 </head>
 <body>
-<?= renderNav('usuarios.php') ?>
+<?= renderNav(BASE_URL . '/modules/admin/usuarios.php') ?>
 <div class="page">
   <div class="page-title">🔑 Gestión de Usuarios</div>
 

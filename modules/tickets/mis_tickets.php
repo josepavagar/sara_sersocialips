@@ -1,8 +1,8 @@
 <?php
-require_once __DIR__ . '/auth.php';
+require_once __DIR__ . '/../../core/auth.php';
 requirePerfil('usuario');
-require_once __DIR__ . '/db.php';
-require_once __DIR__ . '/helpers.php';
+require_once __DIR__ . '/../../core/db.php';
+require_once __DIR__ . '/../../core/helpers.php';
 
 $db   = getDB();
 $user = currentUser();
@@ -39,8 +39,8 @@ $total = array_sum($counts);
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Mis Tickets</title>
-<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-<link rel="stylesheet" href="style.css">
+<link rel="shortcut icon" type="image/x-icon" href="<?= BASE_URL ?>/favicon.ico">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
 <style>
 .ticket-card {
     background: var(--card);
@@ -97,7 +97,7 @@ $total = array_sum($counts);
 </style>
 </head>
 <body>
-<?= renderNav('mis_tickets.php') ?>
+<?= renderNav(BASE_URL . '/modules/tickets/mis_tickets.php') ?>
 <div class="page" style="max-width:820px;">
 
   <div class="page-title">📋 Mis Tickets</div>
@@ -124,7 +124,7 @@ $total = array_sum($counts);
 
   <!-- Filtros por estado -->
   <div class="filter-bar">
-    <a href="mis_tickets.php" class="filter-btn <?= !$estado ? 'active' : '' ?>">Todos</a>
+    <a href="<?= BASE_URL ?>/modules/tickets/mis_tickets.php" class="filter-btn <?= !$estado ? 'active' : '' ?>">Todos</a>
     <?php foreach(['Abierto','En Progreso','Resuelto','Cerrado'] as $e): ?>
       <a href="?estado=<?= urlencode($e) ?>"
          class="filter-btn <?= $estado === $e ? 'active' : '' ?>">
@@ -148,7 +148,7 @@ $total = array_sum($counts);
       <p style="font-size:.85rem;margin-bottom:20px;">
         <?= $estado === '' ? 'Cuando necesites soporte, crea tu primer ticket.' : '' ?>
       </p>
-      <a href="nuevo_ticket.php" class="btn btn-primary">➕ Crear Ticket</a>
+      <a href="<?= BASE_URL ?>/modules/tickets/nuevo.php" class="btn btn-primary">➕ Crear Ticket</a>
     </div>
 
   <?php else: ?>
@@ -157,7 +157,7 @@ $total = array_sum($counts);
       $icons = ['Abierto'=>'🔵','En Progreso'=>'🟡','Resuelto'=>'🟢','Cerrado'=>'⚫'];
       $icon  = $icons[$t['estado']] ?? '🎫';
     ?>
-      <a href="ver_ticket.php?id=<?= $t['id'] ?>" class="ticket-card">
+      <a href="<?= BASE_URL ?>/modules/tickets/ver.php?id=<?= $t['id'] ?>" class="ticket-card">
         <div class="ticket-card-icon tc-<?= $estadoSlug ?>">
           <?= $icon ?>
         </div>
@@ -182,7 +182,7 @@ $total = array_sum($counts);
     <?php endwhile; ?>
 
     <div style="margin-top:20px;">
-      <a href="nuevo_ticket.php" class="btn btn-primary">➕ Crear Nuevo Ticket</a>
+      <a href="<?= BASE_URL ?>/modules/tickets/nuevo.php" class="btn btn-primary">➕ Crear Nuevo Ticket</a>
     </div>
   <?php endif; ?>
 

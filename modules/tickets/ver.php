@@ -1,8 +1,8 @@
 <?php
-require_once __DIR__ . '/auth.php';
+require_once __DIR__ . '/../../core/auth.php';
 requireLogin();
-require_once __DIR__ . '/db.php';
-require_once __DIR__ . '/helpers.php';
+require_once __DIR__ . '/../../core/db.php';
+require_once __DIR__ . '/../../core/helpers.php';
 
 $db    = getDB();
 $id    = intval($_GET['id'] ?? 0);
@@ -10,13 +10,13 @@ $user  = currentUser();
 $perfil = userPerfil();
 
 if (!$id) {
-    header($perfil === 'usuario' ? 'Location: mis_tickets.php' : 'Location: index.php');
+    header($perfil === 'usuario' ? 'Location: ' . BASE_URL . '/modules/tickets/mis_tickets.php' : 'Location: ' . BASE_URL . '/modules/tickets/index.php');
     exit;
 }
 
 $ticket = $db->query("SELECT * FROM tickets WHERE id=$id")->fetch_assoc();
 if (!$ticket) {
-    header($perfil === 'usuario' ? 'Location: mis_tickets.php' : 'Location: index.php');
+    header($perfil === 'usuario' ? 'Location: ' . BASE_URL . '/modules/tickets/mis_tickets.php' : 'Location: ' . BASE_URL . '/modules/tickets/index.php');
     exit;
 }
 
@@ -25,7 +25,7 @@ if ($perfil === 'usuario') {
     $uid = intval($user['id']);
     $tid = intval($ticket['usuario_id'] ?? 0);
     if ($tid !== $uid) {
-        header('Location: mis_tickets.php');
+        header('Location: ' . BASE_URL . '/modules/tickets/mis_tickets.php');
         exit;
     }
 }
@@ -116,11 +116,11 @@ $agentes_list = $db->query("SELECT id, nombre FROM agentes WHERE activo=1 ORDER 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Soporte APP <?= htmlspecialchars($ticket['numero']) ?></title>
-<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-<link rel="stylesheet" href="style.css">
+<link rel="shortcut icon" type="image/x-icon" href="<?= BASE_URL ?>/favicon.ico">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
 </head>
 <body>
-<?= renderNav('index.php') ?>
+<?= renderNav(BASE_URL . '/modules/tickets/index.php') ?>
 <div class="page">
 
   <?php if ($nuevo_ticket): ?>
@@ -135,9 +135,9 @@ $agentes_list = $db->query("SELECT id, nombre FROM agentes WHERE activo=1 ORDER 
     <div>
       <div style="color:var(--muted);font-size:.8rem;margin-bottom:4px;">
         <?php if ($esUsuario): ?>
-          <a href="mis_tickets.php">← Volver a Mis Tickets</a>
+          <a href="<?= BASE_URL ?>/modules/tickets/mis_tickets.php">← Volver a Mis Tickets</a>
         <?php else: ?>
-          <a href="index.php">← Volver a Tickets</a>
+          <a href="<?= BASE_URL ?>/modules/tickets/index.php">← Volver a Tickets</a>
         <?php endif; ?>
       </div>
       <div class="page-title" style="margin-bottom:6px;"><?= htmlspecialchars($ticket['titulo']) ?></div>
@@ -268,7 +268,7 @@ $agentes_list = $db->query("SELECT id, nombre FROM agentes WHERE activo=1 ORDER 
             <?php else: ?>
               <p style="color:var(--muted);font-size:.83rem;">
                 No hay agentes activos.<br>
-                <a href="agentes.php">→ Crear agentes</a>
+                <a href="<?= BASE_URL ?>/modules/admin/agentes.php">→ Crear agentes</a>
               </p>
             <?php endif; ?>
           </div>

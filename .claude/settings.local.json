@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bash install.sh)",
+      "Bash(CLAUDE_DIR=\"$HOME/.claude\")",
+      "Bash(REPO_DIR=\"$HOME/helix_asisten\")",
+      "Bash(mkdir -p \"$CLAUDE_DIR/helpers\")",
+      "Bash(cp -r \"$REPO_DIR/claude/helpers/\"* \"$CLAUDE_DIR/helpers/\")",
+      "Bash(chmod +x \"$CLAUDE_DIR/helpers/\"*.sh)",
+      "Bash(docker --version)",
+      "Bash(docker run:*)",
+      "Bash(ollama pull:*)",
+      "Bash(claude mcp:*)",
+      "Bash(ollama list:*)",
+      "Bash(ollama create:*)",
+      "Bash(ollama ps:*)",
+      "Bash(grep -rl \"require_once __DIR__ . ''''/auth.php''''\" --include=\"*.php\" .)",
+      "Bash(grep -rl \"require_once __DIR__ . ''''/db.php''''\" --include=\"*.php\" .)",
+      "Bash(grep -rl \"require_once __DIR__ . ''''/helpers.php''''\" --include=\"*.php\" .)",
+      "Bash(\"/c/xampp/php/php.exe\" -r \"\n\\\\$dirs = ['modules/tickets', 'modules/admin', 'modules/auth'];\nforeach \\(\\\\$dirs as \\\\$dir\\) {\n    foreach \\(glob\\(\\\\$dir . '/*.php'\\) as \\\\$f\\) {\n        \\\\$c = file_get_contents\\(\\\\$f\\);\n        \\\\$c = str_replace\\(\\\\\"require_once __DIR__ . '/core/\\\\\", \\\\\"require_once __DIR__ . '/../../core/\\\\\", \\\\$c\\);\n        \\\\$c = str_replace\\('href=\\\\\"assets/css/style.css\\\\\"', 'href=\\\\\"<?= BASE_URL ?>/assets/css/style.css\\\\\"', \\\\$c\\);\n        \\\\$c = str_replace\\('href=\\\\\"favicon.ico\\\\\"', 'href=\\\\\"<?= BASE_URL ?>/favicon.ico\\\\\"', \\\\$c\\);\n        file_put_contents\\(\\\\$f, \\\\$c\\);\n    }\n}\necho 'OK';\n\")"
+    ]
+  }
+}

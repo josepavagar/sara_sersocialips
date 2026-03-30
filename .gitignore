@@ -1,0 +1,49 @@
+# ─── Configuración sensible ────────────────────────────────────
+db.php
+.env
+.env.local
+*.env
+
+# Mantener el ejemplo de configuración
+!db.example.php
+
+# ─── XAMPP / Apache ────────────────────────────────────────────
+/logs/
+*.log
+error_log
+php_error.log
+
+# ─── Scripts de instalación y migración ────────────────────────
+# Una vez ejecutados no deben resubirse con datos reales
+install.php
+migracion_agentes.php
+migracion_usuarios.php
+
+# ─── Exports y uploads temporales ──────────────────────────────
+/exports/
+/uploads/
+/tmp/
+*.csv
+!plantilla_indicadores.csv
+
+# ─── Archivos del sistema operativo ────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── IDEs y editores ───────────────────────────────────────────
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+nbproject/
+
+# ─── PHP ───────────────────────────────────────────────────────
+vendor/
+composer.lock
+*.phar
+
+# ─── Node (por si se agrega build frontend en el futuro) ───────
+node_modules/
+npm-debug.log*
+yarn-error.log

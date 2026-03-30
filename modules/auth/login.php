@@ -1,13 +1,13 @@
 <?php
-require_once __DIR__ . '/auth.php';
-require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/../../core/auth.php';
+require_once __DIR__ . '/../../core/db.php';
 
 // Si ya está logueado, redirigir según perfil
 if (isLoggedIn()) {
     $p = userPerfil();
-    if ($p === 'usuario')      { header('Location: nuevo_ticket.php'); exit; }
-    if ($p === 'agente')       { header('Location: index.php'); exit; }
-    if ($p === 'coordinador')  { header('Location: index.php'); exit; }
+    if ($p === 'usuario')     { header('Location: ' . BASE_URL . '/modules/tickets/nuevo.php'); exit; }
+    if ($p === 'agente')      { header('Location: ' . BASE_URL . '/modules/tickets/index.php'); exit; }
+    if ($p === 'coordinador') { header('Location: ' . BASE_URL . '/modules/tickets/index.php'); exit; }
 }
 
 $err = '';
@@ -32,8 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'agente_id' => $row['agente_id'],
             ];
             // Redirigir según perfil
-            if ($row['perfil'] === 'usuario')     { header('Location: nuevo_ticket.php'); exit; }
-            header('Location: index.php'); exit;
+            if ($row['perfil'] === 'usuario')     { header('Location: ' . BASE_URL . '/modules/tickets/nuevo.php'); exit; }
+            header('Location: ' . BASE_URL . '/modules/tickets/index.php'); exit;
         } else {
             $err = 'Usuario o contraseña incorrectos.';
         }
@@ -46,8 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>SARA</title>
-<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-<link rel="stylesheet" href="style.css">
+<link rel="shortcut icon" type="image/x-icon" href="<?= BASE_URL ?>/favicon.ico">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
 <style>
 body {
     display: flex;
@@ -199,7 +199,7 @@ body {
 <div class="login-outer">
   <!-- Logo -->
   <div class="login-logo">
-   <img src="sara_logo.png" alt="SARA APP Support"
+   <img src="<?= BASE_URL ?>/assets/img/sara_logo.png" alt="SARA APP Support"
      style="height:350px;max-width:350px;object-fit:contain;margin:0 auto 8px;display:block;filter:drop-shadow(0 4px 0px rgb(255, 255, 255));">
     <div class="brand-divider"></div>
   </div>

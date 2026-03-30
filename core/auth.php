@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/config.php';
 if (session_status() === PHP_SESSION_NONE) session_start();
 
 /* ─── Helpers de sesión ───────────────────────────────────── */
@@ -16,7 +17,7 @@ function userPerfil(): string {
 
 function requireLogin(): void {
     if (!isLoggedIn()) {
-        header('Location: login.php');
+        header('Location: ' . BASE_URL . '/modules/auth/login.php');
         exit;
     }
 }
@@ -25,7 +26,7 @@ function requireLogin(): void {
 function requirePerfil(string ...$perfiles): void {
     requireLogin();
     if (!in_array(userPerfil(), $perfiles)) {
-        header('Location: acceso_denegado.php');
+        header('Location: ' . BASE_URL . '/modules/auth/acceso_denegado.php');
         exit;
     }
 }
@@ -61,12 +62,25 @@ function autoAsignar($db, int $ticket_id, string $aplicacion): void {
     }
 
     if ($agente_id) {
-        $ag = $db->query("SELECT id, nombre FROM agentes WHERE id=$agente_id AND activo=1")->fetch_assoc();
+        $stmt = $db->prepare("SELECT id, nombre FROM agentes WHERE id=? AND activo=1");
+        $stmt->bind_param('i', $agente_id);
+        $stmt->execute();
+        $ag = $stmt->get_result()->fetch_assoc();
+        $stmt->close();
+
         if ($ag) {
-            $nombre = $db->real_escape_string($ag['nombre']);
-            $db->query("UPDATE tickets SET agente_id=$agente_id, agente='$nombre' WHERE id=$ticket_id");
-            $db->query("INSERT INTO comentarios (ticket_id, autor, tipo, mensaje)
-                VALUES ($ticket_id, 'Sistema', 'Asignacion', 'Asignación automática a: $nombre (regla por aplicación)')");
+            $nombre  = $ag['nombre'];
+            $mensaje = "Asignación automática a: $nombre (regla por aplicación)";
+
+            $stmt = $db->prepare("UPDATE tickets SET agente_id=?, agente=? WHERE id=?");
+            $stmt->bind_param('isi', $agente_id, $nombre, $ticket_id);
+            $stmt->execute();
+            $stmt->close();
+
+            $stmt = $db->prepare("INSERT INTO comentarios (ticket_id, autor, tipo, mensaje) VALUES (?, 'Sistema', 'Asignacion', ?)");
+            $stmt->bind_param('is', $ticket_id, $mensaje);
+            $stmt->execute();
+            $stmt->close();
         }
     }
 }

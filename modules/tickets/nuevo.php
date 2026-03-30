@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__ . '/auth.php';
-require_once __DIR__ . '/db.php';
-require_once __DIR__ . '/helpers.php';
+require_once __DIR__ . '/../../core/auth.php';
+require_once __DIR__ . '/../../core/db.php';
+require_once __DIR__ . '/../../core/helpers.php';
 requireLogin();
 
 $db = getDB();
@@ -51,9 +51,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Redirigir según perfil
             $perfil = userPerfil();
             if ($perfil === 'usuario') {
-                header("Location: mis_tickets.php");
+                header("Location: " . BASE_URL . "/modules/tickets/mis_tickets.php");
             } else {
-                header("Location: ver_ticket.php?id=$id&nuevo=1");
+                header("Location: " . BASE_URL . "/modules/tickets/ver.php?id=$id&nuevo=1");
             }
             exit;
         } else {
@@ -68,8 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Nuevo Ticket</title>
-<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-<link rel="stylesheet" href="style.css">
+<link rel="shortcut icon" type="image/x-icon" href="<?= BASE_URL ?>/favicon.ico">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
 <style>
 .app-badge {
     display: none; margin-top: 7px; padding: 6px 14px;
@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </style>
 </head>
 <body>
-<?= renderNav('nuevo_ticket.php') ?>
+<?= renderNav(BASE_URL . '/modules/tickets/nuevo.php') ?>
 <div class="page" style="max-width:760px;">
   <div class="page-title">➕ Crear Nuevo Ticket</div>
 
@@ -176,7 +176,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div style="display:flex;gap:12px;">
         <button type="submit" class="btn btn-primary">Crear Ticket</button>
         <?php if (canAny('agente','coordinador')): ?>
-          <a href="index.php" class="btn btn-ghost">Cancelar</a>
+          <a href="<?= BASE_URL ?>/modules/tickets/index.php" class="btn btn-ghost">Cancelar</a>
         <?php endif; ?>
       </div>
     </form>

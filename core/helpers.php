@@ -5,15 +5,16 @@ function renderNav(string $active = ''): string {
     $user   = currentUser();
     $perfil = $user['perfil'] ?? '';
 
+    $base = BASE_URL;
     $all = [
-        'index.php'        => ['🎫', 'Tickets',      ['agente','coordinador']],
-        'mis_tickets.php'  => ['📋', 'Mis Tickets',  ['usuario']],
-        'nuevo_ticket.php' => ['➕', 'Nuevo Ticket',  ['usuario','agente','coordinador']],
-        'agentes.php'      => ['👥', 'Agentes',       ['coordinador']],
-        'usuarios.php'     => ['🔑', 'Usuarios',      ['coordinador']],
-        'reportes.php'     => ['📊', 'Reportes Internos',      ['agente','coordinador']],
-        'tareas.php'       => ['✅', 'Tareas',        ['agente','coordinador']],
-        'indicadores.php'  => ['📈', 'Indicadores Externos',   ['coordinador','agente']],
+        "$base/modules/tickets/index.php"       => ['🎫', 'Tickets',             ['agente','coordinador']],
+        "$base/modules/tickets/mis_tickets.php" => ['📋', 'Mis Tickets',         ['usuario']],
+        "$base/modules/tickets/nuevo.php"       => ['➕', 'Nuevo Ticket',         ['usuario','agente','coordinador']],
+        "$base/modules/admin/agentes.php"       => ['👥', 'Agentes',             ['coordinador']],
+        "$base/modules/admin/usuarios.php"      => ['🔑', 'Usuarios',            ['coordinador']],
+        "$base/modules/admin/reportes.php"      => ['📊', 'Reportes Internos',   ['agente','coordinador']],
+        "$base/modules/admin/tareas.php"        => ['✅', 'Tareas',              ['agente','coordinador']],
+        "$base/modules/admin/indicadores.php"   => ['📈', 'Indicadores Externos',['coordinador','agente']],
     ];
 
     $badgeLabel = ['coordinador'=>'Coordinador','agente'=>'Agente','usuario'=>'Usuario'];
@@ -22,10 +23,10 @@ function renderNav(string $active = ''): string {
     $bl = $badgeLabel[$perfil] ?? $perfil;
 
     /* ── Favicon + Nav desktop ── */
-    $html  = '<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">';
+    $html  = '<link rel="shortcut icon" type="image/x-icon" href="' . BASE_URL . '/favicon.ico">';
     $html .= '<nav id="mainNav">';
-    $html .= '<a href="index.php" class="nav-brand" style="text-decoration:none;">'
-           . '<img src="sara_logo.png" alt="SARA APP Support" style="height:40px;width:auto;object-fit:contain;display:block;">'
+    $html .= '<a href="' . BASE_URL . '/modules/tickets/index.php" class="nav-brand" style="text-decoration:none;">'
+           . '<img src="' . BASE_URL . '/assets/img/sara_logo.png" alt="SARA APP Support" style="height:40px;width:auto;object-fit:contain;display:block;">'
            . '</a>';
 
     /* Links visibles en desktop */
@@ -42,7 +43,7 @@ function renderNav(string $active = ''): string {
         $nombre = htmlspecialchars($user['nombre']);
         $html .= '<div class="nav-end">';
         $html .= "<span class=\"nav-user-info\"><span class=\"nav-perfil-badge\" style=\"background:{$bc}\">{$bl}</span>{$nombre}</span>";
-        $html .= '<a href="logout.php" class="nav-logout">Salir</a>';
+        $html .= '<a href="' . BASE_URL . '/modules/auth/logout.php" class="nav-logout">Salir</a>';
         $html .= '</div>';
     }
 
@@ -66,7 +67,7 @@ function renderNav(string $active = ''): string {
         $html .= "<a href=\"$file\"$cls onclick=\"closeDrawer()\">$icon $label</a>";
     }
     $html .= '<div class="nav-drawer-sep"></div>';
-    $html .= '<a href="logout.php">🚪 Cerrar Sesión</a>';
+    $html .= '<a href="' . BASE_URL . '/modules/auth/logout.php">🚪 Cerrar Sesión</a>';
     $html .= '</div>';
 
     /* JS del menú móvil */

@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__ . '/auth.php';
-require_once __DIR__ . '/db.php';
-require_once __DIR__ . '/helpers.php';
+require_once __DIR__ . '/../../core/auth.php';
+require_once __DIR__ . '/../../core/db.php';
+require_once __DIR__ . '/../../core/helpers.php';
 requirePerfil('coordinador', 'agente');
 
 $db   = getDB();
@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $autor  = $db->real_escape_string($creado_por);
                 $db->query("INSERT INTO tareas_comentarios (tarea_id,autor,mensaje,estado_nuevo,avance)
                     VALUES ($tid,'$autor','Tarea creada. Estado inicial: Pendiente (0%).','Pendiente',0)");
-                header("Location: tareas.php?msg=" . urlencode("Tarea «{$nombre}» creada correctamente."));
+                header("Location: " . BASE_URL . "/modules/admin/tareas.php?msg=" . urlencode("Tarea «{$nombre}» creada correctamente."));
                 exit;
             } else {
                 $err = 'Error: ' . $stmt->error;
@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bind_param('sssississi',
                 $nombre,$descripcion,$prioridad,$agente_id,$agente_nombre,$fecha_ini,$fecha_fin,$tid);
             if ($stmt->execute()) {
-                header("Location: tareas.php?msg=" . urlencode('Tarea actualizada correctamente.'));
+                header("Location: " . BASE_URL . "/modules/admin/tareas.php?msg=" . urlencode('Tarea actualizada correctamente.'));
                 exit;
             } else {
                 $err = 'Error: ' . $stmt->error;
@@ -171,7 +171,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'eliminar') {
         $tid = intval($_POST['id']);
         $db->query("DELETE FROM tareas WHERE id=$tid");
-        header("Location: tareas.php?msg=" . urlencode('Tarea eliminada.'));
+        header("Location: " . BASE_URL . "/modules/admin/tareas.php?msg=" . urlencode('Tarea eliminada.'));
         exit;
     }
 }
@@ -261,8 +261,8 @@ $picons  = ['Baja'=>'🟢','Media'=>'🟡','Alta'=>'🟠','Critica'=>'🔴'];
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Tareas</title>
-<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-<link rel="stylesheet" href="style.css">
+<link rel="shortcut icon" type="image/x-icon" href="<?= BASE_URL ?>/favicon.ico">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
 <style>
 /* ── KPIs ── */
 .kpi-row { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:22px; }
@@ -398,14 +398,14 @@ $picons  = ['Baja'=>'🟢','Media'=>'🟡','Alta'=>'🟠','Critica'=>'🔴'];
 </style>
 </head>
 <body>
-<?= renderNav('tareas.php') ?>
+<?= renderNav(BASE_URL . '/modules/admin/tareas.php') ?>
 <div class="page">
 
 <?php /* ══════ VISTA DETALLE ══════════════════════════════════════════ */
 if ($ver_id && $tarea_det): ?>
 
   <div style="color:var(--muted);font-size:.82rem;margin-bottom:10px;">
-    <a href="tareas.php">← Volver a Tareas</a>
+    <a href="<?= BASE_URL ?>/modules/admin/tareas.php">← Volver a Tareas</a>
   </div>
 
   <?php if ($msg): ?><div class="alert alert-ok" style="margin-bottom:14px;">✅ <?= $msg ?></div><?php endif; ?>
@@ -717,7 +717,7 @@ else: ?>
               <?= $tarea_edit ? '💾 Guardar' : '✅ Crear Tarea' ?>
             </button>
             <?php if ($tarea_edit): ?>
-              <a href="tareas.php" class="btn btn-ghost">Cancelar</a>
+              <a href="<?= BASE_URL ?>/modules/admin/tareas.php" class="btn btn-ghost">Cancelar</a>
             <?php endif; ?>
           </div>
         </form>
@@ -750,7 +750,7 @@ else: ?>
             <?php endforeach; ?>
           </select>
           <button type="submit" class="btn btn-primary btn-sm">Filtrar</button>
-          <a href="tareas.php" class="btn btn-ghost btn-sm">Limpiar</a>
+          <a href="<?= BASE_URL ?>/modules/admin/tareas.php" class="btn btn-ghost btn-sm">Limpiar</a>
         </div>
       </form>
 

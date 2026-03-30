@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/db.php';
-require_once __DIR__ . '/helpers.php';
+require_once __DIR__ . '/../../core/db.php';
+require_once __DIR__ . '/../../core/helpers.php';
 
 $db = getDB();
 
@@ -78,12 +78,12 @@ $tickets_all = $db->query("SELECT * FROM tickets $where ORDER BY created_at DESC
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Reportes</title>
-<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-<link rel="stylesheet" href="style.css">
+<link rel="shortcut icon" type="image/x-icon" href="<?= BASE_URL ?>/favicon.ico">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 </head>
 <body>
-<?= renderNav('reportes.php') ?>
+<?= renderNav(BASE_URL . '/modules/admin/reportes.php') ?>
 <div class="page">
   <div class="page-title">📊 Reportes y Estadísticas</div>
 
@@ -95,7 +95,7 @@ $tickets_all = $db->query("SELECT * FROM tickets $where ORDER BY created_at DESC
       <span style="color:var(--muted);align-self:center;">hasta</span>
       <input type="date" name="hasta" value="<?= $hasta ?>" style="max-width:160px;">
       <button type="submit" class="btn btn-primary btn-sm">Aplicar</button>
-      <a href="reportes.php" class="btn btn-ghost btn-sm">Este mes</a>
+      <a href="<?= BASE_URL ?>/modules/admin/reportes.php" class="btn btn-ghost btn-sm">Este mes</a>
       <a href="?desde=<?= date('Y-m-d', strtotime('-7 days')) ?>&hasta=<?= date('Y-m-d') ?>" class="btn btn-ghost btn-sm">Últimos 7 días</a>
       <button onclick="window.print()" type="button" class="btn btn-ghost btn-sm" style="margin-left:auto;">🖨 Imprimir</button>
     </div>
@@ -203,7 +203,7 @@ $tickets_all = $db->query("SELECT * FROM tickets $where ORDER BY created_at DESC
         ?>
           <tr>
             <td><code style="color:var(--accent);font-size:.78rem;"><?= $t['numero'] ?></code></td>
-            <td><a href="ver_ticket.php?id=<?= $t['id'] ?>"><?= htmlspecialchars($t['titulo']) ?></a></td>
+            <td><a href="<?= BASE_URL ?>/modules/tickets/ver.php?id=<?= $t['id'] ?>"><?= htmlspecialchars($t['titulo']) ?></a></td>
             <td style="color:var(--muted)"><?= $t['categoria'] ?></td>
             <td><?= badgePrioridad($t['prioridad']) ?></td>
             <td><?= badgeEstado($t['estado']) ?></td>
